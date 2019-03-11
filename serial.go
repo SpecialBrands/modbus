@@ -10,12 +10,14 @@ import (
 	"sync"
 	"time"
 
+	"fmt"
+
 	"github.com/goburrow/serial"
 )
 
 const (
 	// Default timeout
-	serialTimeout = 5 * time.Second
+	serialTimeout     = 5 * time.Second
 )
 
 // serialPort has configuration and I/O controller.
@@ -23,14 +25,15 @@ type serialPort struct {
 	// Serial port configuration.
 	serial.Config
 
-	Logger *log.Logger
+	Logger      *log.Logger
 
 	mu sync.Mutex
 	// port is platform-dependent data structure for serial port.
-	port io.ReadWriteCloser
+	port         io.ReadWriteCloser
 }
 
 func (mb *serialPort) Connect() (err error) {
+		fmt.Println("SERIAL Opening",mb.Config)
 	mb.mu.Lock()
 	defer mb.mu.Unlock()
 
@@ -51,8 +54,10 @@ func (mb *serialPort) connect() error {
 		if existing, found := portlist[mb.Config.Address]; found {
 			mb.port = existing
 		} else {
+		fmt.Println("Opening",mb.Config)
 			port, err := serial.Open(&mb.Config)
 			if err != nil {
+			fmt.Println("Got error ",err)
 				return err
 			}
 			portlist[mb.Config.Address] = port
@@ -83,3 +88,4 @@ func (mb *serialPort) logf(format string, v ...interface{}) {
 		mb.Logger.Printf(format, v...)
 	}
 }
+

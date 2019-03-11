@@ -84,7 +84,7 @@ func main() {
 	connectionhandler.RS485.DelayRtsAfterSend = time.Duration(delayRtsAfterSend * int(time.Millisecond))
 	connectionhandler.RS485.DelayRtsBeforeSend = time.Duration(delayRtsBeforeSend * int(time.Millisecond))
 
-	connectionhandler.ClientId = byte(clientid) //Apparently this library handles only one slave per clienthandler.
+	connectionhandler.ClientId = byte(clientid) //Apparently this library handles only one client per clienthandler.
 	defer connectionhandler.Close()
 	err := connectionhandler.Connect()
 	if err != nil {

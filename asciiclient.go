@@ -102,7 +102,7 @@ func (mb *asciiPackager) Verify(aduRequest []byte, aduResponse []byte) (err erro
 		err = fmt.Errorf("modbus: response frame ...'%v' is not ended with '%v'", str, asciiEnd)
 		return
 	}
-	// client id
+	// Client id
 	responseVal, err := readHex(aduResponse[1:])
 	if err != nil {
 		return
@@ -121,7 +121,7 @@ func (mb *asciiPackager) Verify(aduRequest []byte, aduResponse []byte) (err erro
 // Decode extracts PDU from ASCII frame and verify LRC.
 func (mb *asciiPackager) Decode(adu []byte) (pdu *ProtocolDataUnit, err error) {
 	pdu = &ProtocolDataUnit{}
-	// client address
+	// Client address
 	address, err := readHex(adu[1:])
 	if err != nil {
 		return

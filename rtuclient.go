@@ -57,6 +57,7 @@ func (mb *rtuPackager) Encode(pdu *ProtocolDataUnit) (adu []byte, err error) {
 	adu = make([]byte, length)
 
 	adu[0] = mb.ClientId
+	fmt.Println("ClientID", mb.ClientId)
 	adu[1] = pdu.FunctionCode
 	copy(adu[2:], pdu.Data)
 
@@ -79,7 +80,7 @@ func (mb *rtuPackager) Verify(aduRequest []byte, aduResponse []byte) (err error)
 		return
 	}
 	//fmt.Printf("DEBUG: [req: %v]\nDEBUG: [res: %v]\n", aduRequest, aduResponse)
-	// client address must match
+	// Client address must match
 	if aduResponse[0] != aduRequest[0] {
 		err = fmt.Errorf("modbus: response client id '%v' does not match request '%v'", aduResponse[0], aduRequest[0])
 		return
